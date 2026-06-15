@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm ls *)",
+      "Bash(npm view *)",
+      "Bash(npm audit *)",
+      "Bash(curl -s -o /tmp/althistory-home.html -w \"%{http_code}\" --retry 15 --retry-connrefused --retry-delay 1 --max-time 90 http://localhost:3000)",
+      "Read(//private/tmp/**)",
+      "Bash(node -p \"process.arch\")",
+      "Read(//usr/local/bin/**)",
+      "Bash(/opt/homebrew/bin/brew install *)"
+    ]
+  }
+}

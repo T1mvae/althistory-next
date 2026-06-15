@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0a1020;
+  --bg2: #0e1424;
+  --navbg: rgba(10, 16, 32, 0.82);
+  --card: #141c30;
+  --line: rgba(201, 164, 92, 0.22);
+  --line2: rgba(232, 226, 210, 0.1);
+  --fg: #ece5d4;
+  --fg2: #9aa3b8;
+  --muted: #767e91;
+  --gold: #c9a45c;
+  --gold-fg: #11182a;
+  --gold-soft: rgba(201, 164, 92, 0.14);
+  --gold-glow: rgba(201, 164, 92, 0.13);
+  --hero-topo: repeating-radial-gradient(circle at 80% 18%, transparent 0 38px, rgba(201, 164, 92, 0.1) 38px 39px);
+}
+
+:root.light {
+  --bg: #f1e8d7;
+  --bg2: #f6efe1;
+  --navbg: rgba(246, 239, 225, 0.86);
+  --card: #fbf6ec;
+  --line: rgba(26, 34, 56, 0.18);
+  --line2: rgba(26, 34, 56, 0.1);
+  --fg: #1b2238;
+  --fg2: #54607a;
+  --muted: #7d889c;
+  --gold: #9a7836;
+  --gold-fg: #fbf6ec;
+  --gold-soft: rgba(154, 120, 54, 0.13);
+  --gold-glow: rgba(154, 120, 54, 0.12);
+  --hero-topo: repeating-radial-gradient(circle at 80% 18%, transparent 0 38px, rgba(154, 120, 54, 0.12) 38px 39px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-plex-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--gold-soft);
+  color: var(--fg);
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+a {
+  color: inherit;
+}
+
+@keyframes ahFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ah-fade {
+  animation: ahFade 0.45s ease both;
+}
