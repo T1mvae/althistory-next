@@ -2,8 +2,6 @@ import Link from 'next/link';
 import { getUniverses } from '@/lib/universes';
 import { Cover } from '@/components/Cover';
 
-export const revalidate = 3600;
-
 const tools = [
   'Notion (CMS)',
   'Historical research',

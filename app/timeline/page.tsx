@@ -1,8 +1,6 @@
 import { getUniverses, getUniverseBySlug } from '@/lib/universes';
 import { TimelineView, type TLItem } from '@/components/TimelineView';
 
-export const revalidate = 3600;
-
 /** Parse a year string like "1929", "1177 BCE", "c. 1177 BCE", "2077 CE" to a sortable number. */
 function parseYear(raw: string): number {
   if (!raw) return 0;

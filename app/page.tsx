@@ -1,8 +1,6 @@
 import { getUniverses } from '@/lib/universes';
 import { HomeView } from '@/components/HomeView';
 
-export const revalidate = 3600; // ISR: refresh from Notion hourly
-
 export default async function Page() {
   const universes = await getUniverses();
   const featured = universes.filter((u) => u.featured).slice(0, 3);

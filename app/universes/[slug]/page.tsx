@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { getAllSlugs, getUniverseBySlug } from '@/lib/universes';
 import { DetailView } from '@/components/DetailView';
 
-export const revalidate = 3600;
-export const dynamicParams = true;
+// Static export: pre-render every universe at build time, none on demand.
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
