@@ -7,3 +7,6 @@
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+
+# Downloaded Notion media (regenerated at build)
+/public/notion-media

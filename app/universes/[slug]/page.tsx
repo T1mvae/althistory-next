@@ -20,10 +20,10 @@ export async function generateMetadata({
   if (!u) return { title: 'Not found' };
   return {
     title: u.name,
-    description: u.summary || u.coreIdea || undefined,
+    description: u.summary || undefined,
     openGraph: {
       title: u.name,
-      description: u.summary || u.coreIdea || undefined,
+      description: u.summary || undefined,
       images: u.cover ? [{ url: u.cover }] : undefined,
     },
   };

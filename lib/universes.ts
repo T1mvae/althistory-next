@@ -1,5 +1,6 @@
 import { notion, UNIVERSES_DB_ID, hueFromSlug } from './notion';
 import { parseUniverseBody } from './parse';
+import { fetchBlockTree } from './notionBlocks';
 import type { UniverseMeta, UniverseDetail } from './types';
 
 /* ---------- Notion property readers ---------- */
@@ -118,23 +119,8 @@ export async function getUniverseBySlug(slug: string): Promise<UniverseDetail | 
   const meta = metas.find((m) => m.slug === slug);
   if (!meta) return null;
 
-  const body = await parseUniverseBody(meta.id);
+  // Render the whole Notion page faithfully (all blocks, nested children, images).
+  const body = await fetchBlockTree(meta.id);
 
-  // Resolve "related" by matching other universe names mentioned in the related section.
-  // (For an MVP we leave related empty unless you add a Relation property — see README.)
-  const related: string[] = [];
-
-  return {
-    ...meta,
-    summary: body.summary || meta.summary,
-    podDetail: body.podDetail || undefined,
-    coreIdea: body.coreIdea || undefined,
-    timeline: body.timeline,
-    factions: body.factions,
-    culture: body.culture || undefined,
-    maps: body.maps,
-    characters: body.characters,
-    nextPlans: body.nextPlans || undefined,
-    related,
-  };
+  return { ...meta, body };
 }

@@ -20,9 +20,6 @@ export function Footer() {
           <Link href="/universes" className="no-underline">
             {t.nav_universes}
           </Link>
-          <Link href="/timeline" className="no-underline">
-            {t.nav_timeline}
-          </Link>
           <Link href="/portfolio" className="no-underline">
             {t.nav_portfolio}
           </Link>

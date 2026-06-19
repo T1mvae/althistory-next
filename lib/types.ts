@@ -40,15 +40,34 @@ export interface UniverseMeta {
   pod: string;
 }
 
-/** The full shape used on a universe detail page. */
+/** A single styled span of rich text from Notion. */
+export interface RichSpan {
+  text: string;
+  bold?: boolean;
+  italic?: boolean;
+  strike?: boolean;
+  underline?: boolean;
+  code?: boolean;
+  href?: string;
+}
+
+/** A serialisable Notion block (with its children), for faithful rendering. */
+export interface BlockNode {
+  id: string;
+  type: string;
+  rich?: RichSpan[];
+  children?: BlockNode[];
+  imageUrl?: string;
+  caption?: RichSpan[];
+  language?: string;
+  checked?: boolean;
+  icon?: string;
+  tableWidth?: number;
+  cells?: RichSpan[][];
+  href?: string;
+}
+
+/** The full shape used on a universe detail page — the whole Notion body. */
 export interface UniverseDetail extends UniverseMeta {
-  podDetail?: string;
-  coreIdea?: string;
-  timeline: TimelineEvent[];
-  factions: Faction[];
-  culture?: string;
-  maps: string[];
-  characters: Character[];
-  nextPlans?: string;
-  related: string[];
+  body: BlockNode[];
 }

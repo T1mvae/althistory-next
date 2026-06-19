@@ -40,13 +40,6 @@ export function HomeView({ featured, total, eraCount }: { featured: UniverseMeta
                 {t.cta_explore} →
               </Link>
               <Link
-                href="/timeline"
-                className="inline-flex h-[46px] items-center rounded-[7px] px-[22px] font-sans text-[14.5px] font-medium no-underline"
-                style={{ border: '1px solid var(--line)', color: 'var(--fg)' }}
-              >
-                {t.cta_timeline}
-              </Link>
-              <Link
                 href="/portfolio"
                 className="inline-flex h-[46px] items-center rounded-[7px] px-[22px] font-sans text-[14.5px] font-medium no-underline"
                 style={{ border: '1px solid var(--line)', color: 'var(--fg)' }}

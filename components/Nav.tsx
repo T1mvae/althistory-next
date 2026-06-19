@@ -18,7 +18,6 @@ export function Nav() {
 
   const items = [
     { href: '/universes', label: t.nav_universes },
-    { href: '/timeline', label: t.nav_timeline },
     { href: '/portfolio', label: t.nav_portfolio },
   ];
 
