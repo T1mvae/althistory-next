@@ -12,7 +12,7 @@ function uniq(xs: string[]): string[] {
 }
 
 export function UniversesExplorer({ universes }: { universes: UniverseMeta[] }) {
-  const { t } = usePrefs();
+  const { t, locale } = usePrefs();
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<FilterKey, string>>({
     era: '',
@@ -44,7 +44,7 @@ export function UniversesExplorer({ universes }: { universes: UniverseMeta[] }) 
     if (filters.language && !u.languages.includes(filters.language)) return false;
     if (filters.tag && !u.tags.includes(filters.tag)) return false;
     if (q) {
-      const hay = `${u.name} ${u.summary} ${u.tags.join(' ')}`.toLowerCase();
+      const hay = `${u.name} ${u.nameByLocale?.[locale] || ''} ${u.summaryByLocale?.[locale] || u.summary} ${u.tags.join(' ')}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;

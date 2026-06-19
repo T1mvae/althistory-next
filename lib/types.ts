@@ -38,6 +38,9 @@ export interface UniverseMeta {
   /** short blurb shown on cards (parsed from the page body) */
   summary: string;
   pod: string;
+  /** localized name + summary (RU is the original; EN/PT/UK machine-translated) */
+  nameByLocale?: Record<Locale, string>;
+  summaryByLocale?: Record<Locale, string>;
 }
 
 /** A single styled span of rich text from Notion. */
@@ -71,5 +74,4 @@ export interface BlockNode {
  *  every locale (RU is the original; EN/PT/UK are machine-translated). */
 export interface UniverseDetail extends UniverseMeta {
   bodyByLocale: Record<Locale, BlockNode[]>;
-  summaryByLocale: Record<Locale, string>;
 }

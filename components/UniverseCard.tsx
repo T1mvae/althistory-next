@@ -7,14 +7,16 @@ import { usePrefs } from '@/lib/prefs';
 import type { UniverseMeta } from '@/lib/types';
 
 export function UniverseCard({ u }: { u: UniverseMeta }) {
-  const { t } = usePrefs();
+  const { t, locale } = usePrefs();
+  const name = u.nameByLocale?.[locale] || u.name;
+  const summary = u.summaryByLocale?.[locale] || u.summary;
   return (
     <div
       className="flex flex-col overflow-hidden rounded-xl"
       style={{ background: 'var(--card)', border: '1px solid var(--line2)' }}
     >
       <Link href={`/universes/${u.slug}`} className="no-underline">
-        <Cover hue={u.hue} src={u.cover} alt={u.name} className="aspect-[16/10]">
+        <Cover hue={u.hue} src={u.cover} alt={name} className="aspect-[16/10]">
           <span
             className="absolute left-3.5 top-3 rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em]"
             style={statusStyle(u.status)}
@@ -35,12 +37,12 @@ export function UniverseCard({ u }: { u: UniverseMeta }) {
         </div>
         <Link href={`/universes/${u.slug}`} className="no-underline">
           <div className="mb-2 font-serif text-[20px] font-medium" style={{ color: 'var(--fg)' }}>
-            {u.name}
+            {name}
           </div>
         </Link>
-        {u.summary && (
+        {summary && (
           <div className="mb-3.5 font-sans text-[13px] leading-[1.58]" style={{ color: 'var(--fg2)' }}>
-            {u.summary}
+            {summary}
           </div>
         )}
         {u.tags.length > 0 && (

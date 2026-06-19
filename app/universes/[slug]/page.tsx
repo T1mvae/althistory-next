@@ -18,12 +18,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const u = await getUniverseBySlug(params.slug);
   if (!u) return { title: 'Not found' };
+  const title = u.nameByLocale?.en || u.name;
+  const description = u.summaryByLocale?.en || u.summary || undefined;
   return {
-    title: u.name,
-    description: u.summary || undefined,
+    title,
+    description,
     openGraph: {
-      title: u.name,
-      description: u.summary || undefined,
+      title,
+      description,
       images: u.cover ? [{ url: u.cover }] : undefined,
     },
   };

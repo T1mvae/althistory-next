@@ -1,7 +1,7 @@
 import { notion, notionRequest, UNIVERSES_DB_ID, hueFromSlug } from './notion';
 import { parseUniverseBody } from './parse';
 import { fetchBlockTree } from './notionBlocks';
-import { localizeTree, translateString, saveCache } from './translate';
+import { localizeTree, translateBatch, saveCache } from './translate';
 import type { UniverseMeta, UniverseDetail, Locale, BlockNode } from './types';
 
 /* ---------- Notion property readers ---------- */
@@ -108,6 +108,21 @@ export async function getUniverses(): Promise<UniverseMeta[]> {
     }),
   );
 
+  // Localize names + summaries for every locale (cached; no-op unless enabled).
+  metas.forEach((m) => {
+    m.nameByLocale = { en: m.name, ru: m.name, pt: m.name, uk: m.name };
+    m.summaryByLocale = { en: m.summary, ru: m.summary, pt: m.summary, uk: m.summary };
+  });
+  for (const loc of ['en', 'pt', 'uk'] as const) {
+    const names = await translateBatch(metas.map((m) => m.name), loc);
+    const sums = await translateBatch(metas.map((m) => m.summary), loc);
+    metas.forEach((m, i) => {
+      m.nameByLocale![loc] = names[i];
+      m.summaryByLocale![loc] = sums[i];
+    });
+  }
+  saveCache();
+
   _cache = { at: Date.now(), metas };
   return metas;
 }
@@ -133,14 +148,7 @@ export async function getUniverseBySlug(slug: string): Promise<UniverseDetail | 
     pt: await localizeTree(source, 'pt'),
     uk: await localizeTree(source, 'uk'),
   };
-  const sum = meta.summary;
-  const summaryByLocale: Record<Locale, string> = {
-    ru: sum,
-    en: await translateString(sum, 'en'),
-    pt: await translateString(sum, 'pt'),
-    uk: await translateString(sum, 'uk'),
-  };
   saveCache();
 
-  return { ...meta, bodyByLocale, summaryByLocale };
+  return { ...meta, bodyByLocale };
 }

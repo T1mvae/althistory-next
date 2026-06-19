@@ -11,7 +11,8 @@ export function DetailView({ u }: { u: UniverseDetail }) {
   const { t, locale } = usePrefs();
   const [copied, setCopied] = useState(false);
 
-  const summary = u.summaryByLocale[locale] || u.summaryByLocale.ru || '';
+  const name = u.nameByLocale?.[locale] || u.name;
+  const summary = u.summaryByLocale?.[locale] || u.summary || '';
   const body = u.bodyByLocale[locale] || u.bodyByLocale.ru;
 
   const share = () => {
@@ -53,7 +54,7 @@ export function DetailView({ u }: { u: UniverseDetail }) {
             <span className="font-mono text-[11.5px] uppercase tracking-[0.14em] text-white/80">{u.type}</span>
           </div>
           <h1 className="mb-4 max-w-[780px] font-serif text-[44px] font-medium leading-[1.05] text-white md:text-[56px]">
-            {u.name}
+            {name}
           </h1>
           {summary && (
             <p className="mb-7 max-w-[680px] font-serif text-[21px] font-light leading-[1.5] text-white/90">
