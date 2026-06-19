@@ -1,4 +1,4 @@
-import { notion } from './notion';
+import { notion, notionRequest } from './notion';
 import type { TimelineEvent, Faction, Character } from './types';
 
 /**
@@ -83,11 +83,13 @@ export async function parseUniverseBody(pageId: string): Promise<ParsedBody> {
   let cursor: string | undefined = undefined;
   const blocks: any[] = [];
   do {
-    const res: any = await notion.blocks.children.list({
-      block_id: pageId,
-      start_cursor: cursor,
-      page_size: 100,
-    });
+    const res: any = await notionRequest(() =>
+      notion.blocks.children.list({
+        block_id: pageId,
+        start_cursor: cursor,
+        page_size: 100,
+      }),
+    );
     blocks.push(...res.results);
     cursor = res.has_more ? res.next_cursor : undefined;
   } while (cursor);

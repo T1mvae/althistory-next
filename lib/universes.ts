@@ -1,4 +1,4 @@
-import { notion, UNIVERSES_DB_ID, hueFromSlug } from './notion';
+import { notion, notionRequest, UNIVERSES_DB_ID, hueFromSlug } from './notion';
 import { parseUniverseBody } from './parse';
 import { fetchBlockTree } from './notionBlocks';
 import { localizeTree, translateString, saveCache } from './translate';
@@ -77,12 +77,14 @@ export async function getUniverses(): Promise<UniverseMeta[]> {
   const results: any[] = [];
   let cursor: string | undefined = undefined;
   do {
-    const res: any = await notion.databases.query({
-      database_id: UNIVERSES_DB_ID,
-      page_size: 100,
-      start_cursor: cursor,
-      sorts: [{ property: 'Last Updated', direction: 'descending' }],
-    });
+    const res: any = await notionRequest(() =>
+      notion.databases.query({
+        database_id: UNIVERSES_DB_ID,
+        page_size: 100,
+        start_cursor: cursor,
+        sorts: [{ property: 'Last Updated', direction: 'descending' }],
+      }),
+    );
     results.push(...res.results);
     cursor = res.has_more ? res.next_cursor : undefined;
   } while (cursor);

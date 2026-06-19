@@ -1,4 +1,4 @@
-import { notion } from './notion';
+import { notion, notionRequest } from './notion';
 import { localizeImage } from './notionMedia';
 import type { BlockNode, RichSpan } from './types';
 
@@ -21,11 +21,13 @@ async function listChildren(blockId: string): Promise<any[]> {
   const out: any[] = [];
   let cursor: string | undefined = undefined;
   do {
-    const res: any = await notion.blocks.children.list({
-      block_id: blockId,
-      start_cursor: cursor,
-      page_size: 100,
-    });
+    const res: any = await notionRequest(() =>
+      notion.blocks.children.list({
+        block_id: blockId,
+        start_cursor: cursor,
+        page_size: 100,
+      }),
+    );
     out.push(...res.results);
     cursor = res.has_more ? res.next_cursor : undefined;
   } while (cursor);
