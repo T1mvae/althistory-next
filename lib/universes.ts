@@ -1,7 +1,8 @@
 import { notion, UNIVERSES_DB_ID, hueFromSlug } from './notion';
 import { parseUniverseBody } from './parse';
 import { fetchBlockTree } from './notionBlocks';
-import type { UniverseMeta, UniverseDetail } from './types';
+import { localizeTree, translateString, saveCache } from './translate';
+import type { UniverseMeta, UniverseDetail, Locale, BlockNode } from './types';
 
 /* ---------- Notion property readers ---------- */
 
@@ -120,7 +121,24 @@ export async function getUniverseBySlug(slug: string): Promise<UniverseDetail | 
   if (!meta) return null;
 
   // Render the whole Notion page faithfully (all blocks, nested children, images).
-  const body = await fetchBlockTree(meta.id);
+  const source = await fetchBlockTree(meta.id);
 
-  return { ...meta, body };
+  // Localize body + hero summary into the other languages (cached; a no-op
+  // unless translation is enabled, i.e. in CI).
+  const bodyByLocale: Record<Locale, BlockNode[]> = {
+    ru: source,
+    en: await localizeTree(source, 'en'),
+    pt: await localizeTree(source, 'pt'),
+    uk: await localizeTree(source, 'uk'),
+  };
+  const sum = meta.summary;
+  const summaryByLocale: Record<Locale, string> = {
+    ru: sum,
+    en: await translateString(sum, 'en'),
+    pt: await translateString(sum, 'pt'),
+    uk: await translateString(sum, 'uk'),
+  };
+  saveCache();
+
+  return { ...meta, bodyByLocale, summaryByLocale };
 }

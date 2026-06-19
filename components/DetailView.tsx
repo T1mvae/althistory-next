@@ -8,8 +8,11 @@ import { statusStyle, heroStyle } from '@/lib/style';
 import type { UniverseDetail } from '@/lib/types';
 
 export function DetailView({ u }: { u: UniverseDetail }) {
-  const { t } = usePrefs();
+  const { t, locale } = usePrefs();
   const [copied, setCopied] = useState(false);
+
+  const summary = u.summaryByLocale[locale] || u.summaryByLocale.ru || '';
+  const body = u.bodyByLocale[locale] || u.bodyByLocale.ru;
 
   const share = () => {
     try {
@@ -52,9 +55,9 @@ export function DetailView({ u }: { u: UniverseDetail }) {
           <h1 className="mb-4 max-w-[780px] font-serif text-[44px] font-medium leading-[1.05] text-white md:text-[56px]">
             {u.name}
           </h1>
-          {u.summary && (
+          {summary && (
             <p className="mb-7 max-w-[680px] font-serif text-[21px] font-light leading-[1.5] text-white/90">
-              {u.summary}
+              {summary}
             </p>
           )}
           <div className="flex flex-wrap items-end gap-7">
@@ -79,7 +82,7 @@ export function DetailView({ u }: { u: UniverseDetail }) {
 
       {/* BODY — the full Notion page, rendered faithfully */}
       <div className="mx-auto max-w-[1080px] px-8 pb-24 pt-12">
-        <NotionBlocks blocks={u.body} />
+        <NotionBlocks blocks={body} />
       </div>
     </div>
   );

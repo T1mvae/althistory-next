@@ -10,3 +10,6 @@ next-env.d.ts
 
 # Downloaded Notion media (regenerated at build)
 /public/notion-media
+
+# Build-time translation cache (persisted via Actions cache, not git)
+translations.cache.json

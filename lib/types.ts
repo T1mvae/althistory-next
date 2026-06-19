@@ -67,7 +67,9 @@ export interface BlockNode {
   href?: string;
 }
 
-/** The full shape used on a universe detail page — the whole Notion body. */
+/** The full shape used on a universe detail page — the whole Notion body in
+ *  every locale (RU is the original; EN/PT/UK are machine-translated). */
 export interface UniverseDetail extends UniverseMeta {
-  body: BlockNode[];
+  bodyByLocale: Record<Locale, BlockNode[]>;
+  summaryByLocale: Record<Locale, string>;
 }
